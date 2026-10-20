@@ -1,96 +1,40 @@
-# foxyvpn-desktop                                    ════════════════════════════════════════════════════════
-              FoxyVPN Desktop — راهنمای استفاده
-════════════════════════════════════════════════════════
+FoxyVPN Desktop 🦊
+A clean, personal Windows client for the Firefox Built-in VPN service.
 
-پیش‌نیازها
-──────────
-• ویندوز ۱۰ یا ۱۱ (۶۴ بیتی)
-• یک اکانت فایرفاکس (Firefox Account) با سرویس Built-in VPN
-  فعال (همان VPN داخلی مرورگر فایرفاکس با سقف ۵۰ گیگ در ماه)
-• هر شخص از «اکانت و رمز خودش» استفاده می‌کند — رمز شما
-  هیچ‌جا ذخیره نمی‌شود و فقط بار اول پرسیده می‌شود.
+FoxyVPN Desktop wraps the foxyvpn engine with a simple dark-themed GUI: connect withyour own Firefox Account, pick a country, and route all your apps through a local proxy —no technical setup required.
 
-شروع کار
-────────
-1. هر دو فایل exe باید همیشه در یک پوشه کنار هم باشند.
-   (FoxyVPNDesktop.exe بدون foxyvpn-engine.exe کار نمی‌کند)
+⚠️ Unofficial project — not affiliated with or endorsed by Mozilla.Use it only with an account and entitlement you are authorized to use, and inaccordance with Mozilla's terms of service.
 
-2. FoxyVPNDesktop.exe را اجرا کنید.
-   اگر ویندوز/آنتی‌ویروس هشدار داد (چون فایل امضای دیجیتال ندارد):
-   More info  →  Run anyway
+✨ Features
+🔑 Your own account — every user signs in with their own Firefox Account email.The password is asked only once (in a console popup) and never stored.
+🔁 Auto re-connect — after the first sign-in, a session token is cached locally(~/.foxyvpn-tokens.json) and later connections are fully silent.
+🌍 Country picker — all Firefox Built-in VPN server locations, plus theauto-selected "Recommended" server.
+🖥️ All apps, not just Firefox — an HTTP→SOCKS bridge is published as theWindows system proxy, so Chrome, Edge, Opera, Firefox and most desktop apps aretunneled automatically. SOCKS5 is also available directly for apps like Telegram.
+🩺 Self-healing tunnel — background health checks detect a wedged tunnel andrestart the engine automatically (inspired by the Android FoxyVPN client).
+🚫 Smart refusal cache — destinations rejected by the upstream edge (ad/trackingdomains) are refused locally with exponential backoff instead of wasting round trips.
+🧹 Clean disconnect — the engine (and all of its child processes) is reliablykilled, and the system proxy is always restored on exit.
+📦 Download
+Grab the two executables from the Releases page:
 
-3. در بخش FIREFOX ACCOUNT، ایمیل اکانت فایرفاکسِ خودتان را وارد کنید.
+File	Purpose
+FoxyVPNDesktop.exe	The graphical interface
+foxyvpn-engine.exe	The VPN engine (required — must sit next to the GUI)
+Both files must stay in the same folder.
 
-4. دکمه Connect را بزنید:
-   • بار اول: یک پنجره سیاه (کنسول) باز می‌شود — ایمیل و رمز
-     اکانتتان را «همان‌جا» وارد کنید. این پنجره را نبندید؛
-     تا وقتی Disconnect می‌کنید باز می‌ماند.
-   • دفعات بعد: برنامه خودکار و بدون هیچ سوالی وصل می‌شود
-     (توکن نشست روی کامپیوتر خودتان کش می‌شود).
-   • اگر خواستید دوباره رمز بپرسد: تیک
-     «Force a fresh sign-in» را بزنید و Connect بزنید.
+The app ships with a built-in auto-updater: when a new version is published, it offersto download and replace itself on the next launch.
 
-5. وقتی وضعیت شد CONNECTED:
-   • اگر تیک «Route all Windows apps» فعال باشد، همه مرورگرها
-     (کروم، اج، اپرا، فایرفاکس) و اکثر برنامه‌ها خودکار از VPN
-     عبور می‌کنند — نیازی به تنظیم دستی نیست.
-   • بعد از Disconnect یا بستن برنامه، تنظیمات پروکسی ویندوز
-     خودکار به حالت قبل برمی‌گردد.
-
-اتصال برنامه‌های خاص
-────────────────────
-• تلگرام دسکتاپ: به پروکسی سیستم توجه نمی‌کند. دستی تنظیم کنید:
-  Settings → Advanced → Connection → Use custom proxy → Add
-  Type: SOCKS5 | Host: 127.0.0.1 | Port: 1080
-  (Username و Password خالی بمانند)
-
-• هر برنامه دیگری که تنظیم SOCKS5 دارد:
-  Host: 127.0.0.1 | Port: 1080
-
-• هر برنامه‌ای که تنظیم HTTP proxy دارد:
-  Host: 127.0.0.1 | Port: 8080
-
-نکات مهم
-────────
-• سقف مصرف این سرویس حدود ۵۰ گیگابایت در ماه است (اول هر ماه
-  ریست می‌شود). اگر وصل هستید ولی سایت‌ها باز نمی‌شوند، احتمالاً
-  سهمیه تمام شده — در مرورگر فایرفاکس بخش Built-in VPN چک کنید.
-
-• گاهی کشورِ خروجی با کشور انتخابی کمی متفاوت نمایش داده می‌شود؛
-  این به‌دلیل مسیریابی سرورهای موزیلاست و طبیعی است. اگر اذیت
-  کرد، یک بار Disconnect و Connect کنید.
-
-• اگر چند دقیقه از برنامه استفاده نکنید و بعد سایت باز نشد،
-  برنامه خودش تونل را چک و در صورت نیاز رستارت می‌کند — چند
-  ثانیه صبر کنید.
-
-• اگر سایتی به‌طور مداوم باز نشد ولی بقیه کار کردند، احتمالاً
-  آن سایت از سمت سرورهای موزیلا مجاز نیست (مثلاً برخی دامنه‌های
-  تبلیغاتی/غیروب رد می‌شوند) — مشکل از برنامه شما نیست.
-
-عیب‌یابی سریع
-────────────
-□ برنامه «Engine missing» گفت:
-  → فایل foxyvpn-engine.exe کنار برنامه نیست.
-
-□ «Port busy» گفت:
-  → یک برنامه دیگر پورت 1080 را گرفته؛ کامپیوتر را ری‌استارت
-    کنید یا آن برنامه را ببندید.
-
-□ وصل است ولی سایت‌ها باز نمی‌شوند:
-  ۱. سهمیه ماهانه را در فایرفاکس چک کنید
-  ۲. Disconnect و بعد Connect کنید
-  ۳. در تنظیمات ویندوز: Settings → Network → Proxy →
-     مطمئن شوید Use a proxy server روی 127.0.0.1:8080 است
-     (فقط وقتی برنامه CONNECTED است)
-  ۴. مرورگر را کاملاً ببندید و دوباره باز کنید
-
-□ اینترنت بعد از خروج از برنامه قطع شد:
-  → برنامه احتمالاً ناجور بسته شده. در ویندوز بروید به:
-     Settings → Network & Internet → Proxy
-     گزینه «Use a proxy server» را خاموش کنید. تمام.
-
-────────────────────────────────────────────────────────
-این برنامه یک کلاینت غیررسمی برای سرویس VPN مرورگر فایرفاکس
-است و به موزیلا وابستگی ندارد. از آن فقط با اکانت خودتان و
-مطابق قوانین سرویس استفاده کنید.
+🚀 Usage
+Run FoxyVPNDesktop.exe
+Enter your own Firefox Account email (an account that has the FirefoxBuilt-in VPN service, with its ~50 GB monthly data limit)
+Press Connect
+First time: a console window opens — enter your email and password there.Keep it open until you disconnect.
+After that: connections are automatic, no prompts.
+Tick Force a fresh sign-in to log in again from scratch.
+Wait for CONNECTED — with the Route all Windows apps checkbox enabled,browsers and most apps are tunneled automatically.
+Manual app configuration
+App type	Address
+SOCKS5-aware apps (Telegram, etc.)	SOCKS5 → 127.0.0.1:1080
+HTTP-proxy-aware apps	HTTP → 127.0.0.1:8080
+🛠 How it works
+Your apps   │   ├─ System proxy (HTTP) ─►  HTTP bridge :8080 ─┐   ├─ Direct SOCKS5 ─────────────────────────────┤   │                                             ▼   │                              foxyvpn-engine (SOCKS5 :1080)   │                                             │   │                              HTTP/2 tunnel (proxy-pass)   │                                             ▼   └──────────────────────────────►  Firefox VPN edge (Fastly MASQUE)
+The engine handles Firefox Accounts login, Fastly anti-bot challenge solving
