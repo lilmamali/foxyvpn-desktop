@@ -1,0 +1,30 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.spec
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Secrets — هرگز commit نشن
+github_token.txt
+.foxyvpn-tokens.json
+usage.json
+*.local.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Update leftovers
+_update.bat
+*.new
