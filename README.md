@@ -1,4 +1,6 @@
-[README.md](https://github.com/user-attachments/files/33892682/README.md)  فارسی | English
+[README.md](https://github.com/user-attachments/files/33892747/README.md)
+[فارسی](README.fa.md) | [English](README.md)
+
 # FoxyVPN Desktop
 
 A graphical Windows client for the Firefox built-in VPN (via the `foxyvpn` pip package).
