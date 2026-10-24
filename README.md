@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/33892747/README.md)
+[README.md](https://github.com/user-attachments/files/33904040/README.md)
 [فارسی](README.fa.md) | [English](README.md)
 
 # FoxyVPN Desktop
@@ -95,6 +95,63 @@ Returning users connect automatically (cached OAuth token).
 - **Country mismatch**: Mozilla's edge uses anycast — exit IP country may differ from selected.
 - **Mozilla service outages**: if `--list-servers` fails, only "Recommended" is offered.
 - **Data tracking is per-device**: usage from other devices on the same account isn't counted.
+
+---
+
+## 🆘 Troubleshooting
+
+### Connection fails with `WinError 10054` / bridges keep timing out
+
+This means the engine cannot reach Mozilla's bridge servers. In **Iran** this is almost
+always network-level filtering on the connection pattern, not a bug in the app. Try in
+order:
+
+1. **Close Telegram (and any proxy app: V2RayN, Nekoray, etc.) before connecting.**
+   Telegram's proxy/routes can interfere with the engine's bridge connections and cause
+   resets.
+2. **Try a different country** — `NL`, `CH`, `FR`, `SE` often succeed when `DE` does not.
+3. **Try a different time of day** — filtering intensity is often hourly.
+4. **Try a different ISP** — mobile hotspot (Hamrah-e-Aval, Irancell) sometimes works
+   when home ADSL does not.
+5. **Temporarily disable antivirus** (Kaspersky, ESET) — some inject RST on suspicious TLS.
+6. **Sync Windows time** with `time.windows.com` — TLS is clock-sensitive.
+
+### VPN connects, but disconnects when sending files in Telegram
+
+Telegram leaves a system proxy / connection pattern that conflicts with the engine:
+
+1. Check there is no system-wide proxy:
+   ```cmd
+   netsh winhttp show proxy
+   ```
+   Both **Automatic** and **Manual** proxy should be **Off** in
+   `Settings → Network & Internet → Proxy`.
+2. In Telegram: `Settings → Advanced → Connection and Data` → make sure Telegram itself
+   uses no proxy while the VPN is up (traffic flows through the tunnel anyway).
+3. Connect the VPN **first**, then open Telegram — not the other way around.
+
+### Sites stop loading while Telegram is uploading a file
+
+This is **upload saturation / bufferbloat** on your own internet — not a VPN bug. The
+uplink is fully consumed by Telegram's parallel uploads. Limit Telegram's upload speed
+with **PowerShell as Administrator**:
+
+```powershell
+New-NetQosPolicy "TelegramUploadLimit" -AppPathName "Telegram.exe" -ThrottleRateActionBitsPerSecond 4MB
+```
+
+Set the throttle to ~50–60% of your real upload speed. Remove it with:
+
+```powershell
+Remove-NetQosPolicy "TelegramUploadLimit"
+```
+
+(Windows Home users without the QoS cmdlet can use **NetLimiter** or **NetBalancer**.)
+
+### `Mozilla fetch failed` or `Mozilla output not parseable`
+
+The engine couldn't return account info. Usually means the OAuth token expired or there's
+no internet. Press **Sync with Mozilla** again after re-establishing connectivity.
 
 ---
 
